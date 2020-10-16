@@ -1,0 +1,37 @@
+spring:
+    application:
+        name: sp-demo-api-doc
+    profiles:
+        active: ${pod.services.profile:dev1}
+    security:
+        oauth2:
+            resourceserver:
+                jwt:
+                   # UAA/PCF 
+                   # jwk-set-uri: https://ea.login.system.cf.np.gc.cahcloud.net/token_keys
+                   # OKTA 
+                    #jwk-set-uri: https://dev-696450.okta.com/oauth2/default/v1/keys
+                   # key-cloack
+                   jwk-set-uri: http://192.168.64.2:30998/auth/realms/master/protocol/openid-connect/certs
+springdoc:
+    swagger-ui:
+        oauth:
+            #######  PCF/UAA ##########################
+            #client-id: 4317a27a-bafd-4d59-be49-c9613bfbded2
+            #client-secret: fd7eab72-aa31-4706-b8c1-8611c0ead2e9
+            #access-token-uri: https://ea.login.system.cf.np.gc.cahcloud.net/oauth/token
+            
+            #######  OKTA ##########################
+            #client-id: 0oa5uqvykjmN2UtkC357
+            #client-secret: c947iTlXAkx4jGS6P_AHsf2t5axJ7Cknv2SInwto
+            #access-token-uri: https://dev-696450.okta.com/oauth2/default/v1/token
+            
+            
+             #######  KEY-CLOAK ##########################
+            client-id: sp-api-doc
+            client-secret: 1e502dd2-9cce-4c20-a83f-dd057d5b992d
+            access-token-uri: http://192.168.64.2:30998/auth/realms/master/protocol/openid-connect/token
+logging:
+  level:
+    org.springframework.security: trace
+
