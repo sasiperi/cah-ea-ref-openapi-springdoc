@@ -20,7 +20,7 @@ This is a refernce implementation show casing best practices using spring doc fo
 
 IMPORTANT: Springdoc is able to introspect the code, and is able to produce good documenation, with no additional coding. However. for the springdoc to auto-generate good documentation, before overriding with specific annotations, developers are required to follow, the following REST-API, Sping and Java coding practices.
 
-. Good and meaning naming conventions of the variables, method names and models (pers Sun/Oracle guidelines)
+. Good and meaningfull naming conventions of the variables, method names and models (pers Sun/Oracle guidelines)
 . Exceptions and HTTP Responses (for global nature, applicable to all endpoints) handled via Rest Controller Advices
 . All validations handled via JSR303 spec. For example
 .. Plain POJOS (model/dto etc..) validated via javax.validator
