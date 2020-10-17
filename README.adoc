@@ -13,7 +13,7 @@ This is a refernce implementation show casing best practices using spring doc fo
 <2> Add generic configuration (security policies, api info etc..) as called out in the link:[Code Walkover] section (via spring configuration).
 <3> Run the generate api gradle task `gradle clean generateOpenApiDocs` to generate documentation. And openapi.json should be available under the gradle build folder. Details are under link:[Spec via build]
 <4> Using the swaggor editor, inspect documentation "auto generated" by spring-doc.
-<5> If you followed best practices and spring/java guidelines for builidng Rest Apis (important ones are called in the "Pre-requisites" section), already the document (opanApi Spec) generated should be good enough.
+<5> If you followed best practices and spring/java guidelines for builidng Rest Apis (important ones are called in the "*Pre-requisites*" section), already the document (opanApi Spec) generated should be good enough.
 <6> Add springdoc openapi annotation into code, if the generated documentation is not enough? Which could be due to not following best practices OR due to legitamate excepions called out under link:[Annotations for Specific Documentation]
 
 = Pre-requisites (good rest-api pracices)
