@@ -73,7 +73,7 @@ https://github.com/cah-venkatasuryasasikala-peri/cah-ea-ref-openapi-springdoc/bl
 == Specific exceptions and annotations (ovderride generated opanapi, as needed)
 spingdoc (mvc/webflux) core provides lot of annotations that can be used to produce very specific documentation (description, default values, http-statuses etc.. ). These exceptions can be handled (default doc can be overridden)
 
-<1> Most of the specifc overrides can aslo easyly be handled via "application.properties". The comprehensive list of what can be handled via application configuration is here: https://springdoc.org/springdoc-properties.html[Asciidoctor]
+<1> Most of the specifc overrides can aslo easyly be handled via "application.properties". The comprehensive list of what can be handled via application configuration is here: https://springdoc.org/springdoc-properties.html[springdoc-openapi application configuration cheat-sheat]
 <2> Only if there is still anything that can not be handled via a) Global configuration b) And/Or via application onfiguration, need to be handled using these springdoc annotations if the "generic/global" configuration is not able to handle.
 
 For example below code snippet has specific annoation for following reasons.
