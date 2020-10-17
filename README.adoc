@@ -3,6 +3,7 @@ Sasi Peri <sasi.peri@cardinalhealth.com>
 v1.0, 2020-10-16
 
 :toc:
+:toc-placement: preamble
 
 = Introduction
 This is a refernce implementation show casing best practices using spring doc for generating api specs for contract driven development (and testing). Salient aspects are documented here.
@@ -51,12 +52,72 @@ id 'org.springdoc.openapi-gradle-plugin' version '1.3.0'
 ----
 
 == Global configuration
+Create a spring configuration file and add global policies such as security configuration and information about API. Sample code is here.
+https://github.com/cah-venkatasuryasasikala-peri/cah-ea-ref-openapi-springdoc/blob/3779a91d6aa1f62fab0e58548fe034e6e1ca7f87/src/main/java/com/example/demo/config/OpenAPIConfig.java#L22-L96
 
-`include::/cah-ea-ref-openapi-springdoc/blob/3779a91d6aa1f62fab0e58548fe034e6e1ca7f87/src/main/java/com/example/demo/config/OpenAPIConfig.java#L22-L96`
 
-`include::./src/main/java/com/example/demo/config/OpenAPIConfig.java#L22-L96`
+`include::https://github.com/cah-venkatasuryasasikala-peri/cah-ea-ref-openapi-springdoc/blob/3779a91d6aa1f62fab0e58548fe034e6e1ca7f87/src/main/java/com/example/demo/config/OpenAPIConfig.java#L22-L96`
+
+== JSR303 (javax/hibernate validator)
+Sample code is here that shows how javax validation cane be used to generate validations into generated swaggerdoc (openAPI Spec)
+https://github.com/cah-venkatasuryasasikala-peri/cah-ea-ref-openapi-springdoc/blob/main/src/main/java/com/example/demo/model/Book.java
+`include::https://github.com/cah-venkatasuryasasikala-peri/cah-ea-ref-openapi-springdoc/blob/main/src/main/java/com/example/demo/model/Book.java`
+
+== Rest Controller Advices
+When checked/unchecked exceptons are handled properly, thrown properly up the stack (as needed to geneate HTTP Statuses), they can be handled via Rest Controller Advices across all endpoints. springdoc introspects into spring controller advices and is able to generate HTTP Status in the openAPI Spec. If an method/endpoint 
+behaves differantly, throws specific HTTP Statuses (e.g a specifc endpoint is offered public, does not need throw securrity related HTTP Statuses) these can be overridden using specific spring doc annotations, as called out in the exceptions section.
+
+https://github.com/cah-venkatasuryasasikala-peri/cah-ea-ref-openapi-springdoc/blob/c31c9a530080ea6716ebb1968c48571b0cf3e147/src/main/java/com/example/demo/controller/exceptionhandler/MyControllerExceptionHandler.java#L17-L69
+
+
+== Specific exceptions and annotations (ovderride generated opanapi, as needed)
+spingdoc (mvc/webflux) core provides lot of annotations that can be used to produce very specific documentation (description, default values, http-statuses etc.. ). These exceptions can be handled (default doc can be overridden)
+
+<1> Most of the specifc overrides can aslo easyly be handled via "application.properties". The comprehensive list of what can be handled via application configuration is here: https://springdoc.org/springdoc-properties.html
+<2> Only if there is still anything that can not be handled via a) Global configuration b) And/Or via application onfiguration, need to be handled using these springdoc annotations if the "generic/global" configuration is not able to handle.
+
+For example below code snippet has specific annoation for following reasons.
+
+. Bad naming convention. 
+.. For example in this sample code, it takes path param called ID, from this name we can not deduce it is intened to work more like boolean (1 or 0) so need to be explictly documented. 
+.. Similarly the method name itself is named weird "purpleCow" it tells nothing about what it does? Not the endpoint path is created sensibly to deduce what it does. In this case more specific annotations are added to document openAPI/swagger well.
+. Unlike all other methods this method/endpoint throws no errors, throws a special exception/http-status, thus instead of spindoc handle it via controller advice, we handled it via "specific annotation" @APIOperation etc...
+. Similarly *if* it does not follow the global security policy (scheme) it can be overridden below via annoation **(which is usually a rare situation, usually all endpooits (respurce server) follows same "least privileged" security policy, and same oauth-grant type flows)**
 
 [source,java]
 ----
-https://github.com/cah-venkatasuryasasikala-peri/cah-ea-ref-openapi-springdoc/blob/3779a91d6aa1f62fab0e58548fe034e6e1ca7f87/src/main/java/com/example/demo/config/OpenAPIConfig.java#L22-L96
+  @Operation(summary = "Gets a random book, independent of the book if id=1 passed, no books if id=0 passed")
+    @ApiResponses(value = { 
+            @ApiResponse(responseCode = "200", description = "Found the book", 
+              content = { @Content(mediaType = "application/json", 
+                schema = @Schema(implementation = Book.class)) })})
+    @GetMapping(value = "/doBook/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})    
+    public Book purpleCow(@Parameter(description = "takes value 0 or 1, to send random book or none")@PathVariable("id")  int id) throws InvalidTypeIdException
+    {
+        Book book;
+        switch (id)
+        {
+            case 1 ->  book = new Book (5, "Design Patterns", "Sasi Peri", "Orielly", 50 );
+            case 0 ->  book = new Book();
+            default -> throw new InvalidTypeIdException(null, "No data was found mathcing the requested criteria == " + id, null, "Book");
+        }         
+        
+        return book;
+    }
+    
 ----
+
+== Where can I find final spec?
+=== Static Spec
+As we added gradle (or maven) spring doc plugin as a dependency, following `gradle task` (or `maven goal`) produce opanapi.json under *build* (or target) folder.
+<1> *gradle*:  `gradle clean generateOpenApiDocs`
+<2> *maven*:  `mvn verify -Dspring.application.admin.enabled=true`
+
+== While running (dynamic content)
+<1> *openapi spec*: Is available at "http://host:port/v3/open-apidocs **(e.g. when above repo is cloned and run locally they are vaialble @ http://localhost:8080/v3/api-docs)**
+<2> *swagger gui*  Is available at "http://host:port/v3/swagger-ui.html **(e.g. when above repo is cloned and run locally they are vaialblehttp://localhost:8080/swagger-ui.html)**
+
+
+
+
+
