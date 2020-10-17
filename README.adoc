@@ -9,12 +9,12 @@ v1.0, 2020-10-16
 This is a refernce implementation show casing best practices using spring doc for generating api specs for contract driven development (and testing). Salient aspects are documented here.
 
 = Steps
-<1> Get dependencies as detailed in the dependencies section.
-<2> Add generic configuration (security policies, api info etc..) as called out code section (via spring configuration).
-<3> Run the generate api gradle task `gradle clean generateOpenApiDocs` to generate documentation. And openapi.json should be available under the gradle build folder.
+<1> Get dependencies as detailed in the link:[Dependencies] section.
+<2> Add generic configuration (security policies, api info etc..) as called out in the link:[Code Walkover] section (via spring configuration).
+<3> Run the generate api gradle task `gradle clean generateOpenApiDocs` to generate documentation. And openapi.json should be available under the gradle build folder. Details are under link:[Spec via build]
 <4> Using the swaggor editor, inspect documentation "auto generated" by spring-doc.
 <5> If you followed best practices and spring/java guidelines for builidng Rest Apis (important ones are called in the "Pre-requisites" section), already the document (opanApi Spec) generated should be good enough.
-<6> Add springdoc openapi annotation into code, if the generated documentation is not enough? Which could be due to not following best practices OR due to legitamate excepions called out under " Handling the specific overrides"
+<6> Add springdoc openapi annotation into code, if the generated documentation is not enough? Which could be due to not following best practices OR due to legitamate excepions called out under link:[Annotations for Specific Documentation]
 
 = Pre-requisites (good rest-api pracices)
 
@@ -27,7 +27,7 @@ IMPORTANT: Springdoc is able to introspect the code, and is able to produce good
 .. JPA Entirties and such via hibernate validator
 
 = Code details
-== Dependencies
+== [[Dependencies]] Dependencies
 They are shown in the code snippet below. Details of which are below.
 
 * *Required:*  
@@ -51,6 +51,7 @@ id "com.github.johnrengelman.processes" version "0.5.0"
 id 'org.springdoc.openapi-gradle-plugin' version '1.3.0'
 ----
 
+== [[Code Walkover]] Code walkover
 == Global configuration
 Create a spring configuration file and add global policies such as security configuration and information about API. Sample code is here.
 https://github.com/cah-venkatasuryasasikala-peri/cah-ea-ref-openapi-springdoc/blob/3779a91d6aa1f62fab0e58548fe034e6e1ca7f87/src/main/java/com/example/demo/config/OpenAPIConfig.java#L22-L96
@@ -70,7 +71,7 @@ behaves differantly, throws specific HTTP Statuses (e.g a specifc endpoint is of
 https://github.com/cah-venkatasuryasasikala-peri/cah-ea-ref-openapi-springdoc/blob/c31c9a530080ea6716ebb1968c48571b0cf3e147/src/main/java/com/example/demo/controller/exceptionhandler/MyControllerExceptionHandler.java#L17-L69
 
 
-== Specific exceptions and annotations (ovderride generated opanapi, as needed)
+== [[Annotations for Specific Documentation]] Annotations for Specific Documentation (ovderride generated opanapi, as needed)
 spingdoc (mvc/webflux) core provides lot of annotations that can be used to produce very specific documentation (description, default values, http-statuses etc.. ). These exceptions can be handled (default doc can be overridden)
 
 <1> Most of the specifc overrides can aslo easyly be handled via "application.properties". The comprehensive list of what can be handled via application configuration is here: https://springdoc.org/springdoc-properties.html[springdoc-openapi application configuration cheat-sheat]
@@ -108,7 +109,7 @@ For example below code snippet has specific annoation for following reasons.
 ----
 
 == Where can I find final spec?
-=== Static Spec
+=== [[Spec via build]] Static Spec During Build
 As we added gradle (or maven) spring doc plugin as a dependency, following `gradle task` (or `maven goal`) produce opanapi.json under *build* (or target) folder.
 <1> *gradle*:  `gradle clean generateOpenApiDocs`
 <2> *maven*:  `mvn verify -Dspring.application.admin.enabled=true`
