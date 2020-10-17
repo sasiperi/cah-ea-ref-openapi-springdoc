@@ -27,25 +27,26 @@ Springdoc is able to introspect the code, and is able to produce good documenati
 = Code details
 == Dependencies
 They are shown in the code snippet below. Details of which are below.
-* Required:  
+
+* *Required:*  
 ** sprindoc-ui depedency *alone* is enough to get core opanAPI spec generation and swagger-gui generation. 
 ** If GUI is *not* needed then one of mvc-core or webflux-core are required as depedencies.
 ** If the Rest API is built (system api to expose domains) using Spring-Data-Rest you also need to add springdoc-openapi-data-rest, so that springdoc will be able to introspect the JPA Repositories and auto generate documenation for you.
-* Opional (security): Spring doc security plugin is needed, so as to ignore @AuthenticationPrincipal in case its used on REST Controllers and any possible errors that may occur (due to lack of oidc/sso during testing)
-* Plugins:  The springdoc doc gradle/maven plugin is needed to generate json and yaml OpenAPI description during build time. The plugin works during integration-tests phase, and generate the OpenAPI description. The plugin works in conjunction with spring-boot-maven plugin.
+* *Opional (security):* Spring doc security plugin is needed, so as to ignore @AuthenticationPrincipal in case its used on REST Controllers and any possible errors that may occur (due to lack of oidc/sso during testing)
+* *Plugins:*  The springdoc doc gradle/maven plugin is needed to generate json and yaml OpenAPI description during build time. The plugin works during integration-tests phase, and generate the OpenAPI description. The plugin works in conjunction with spring-boot-maven plugin.
 
 === dependencies gradle
 [source,groovy]
 ----
-  implementation 'org.springdoc:springdoc-openapi-ui:1.4.8'. // for both mvc core and ui
-	implementation 'org.springdoc:springdoc-openapi-security:1.4.8'	//security of @AuthenticationPrincipal is used
+implementation 'org.springdoc:springdoc-openapi-ui:1.4.8'. // for both mvc core and ui
+implementation 'org.springdoc:springdoc-openapi-security:1.4.8'	//security of @AuthenticationPrincipal is used
 ----
 
 === gradle plugin - groovy DSL
 [source,groovy]
 ----
-  id "com.github.johnrengelman.processes" version "0.5.0"
-	id 'org.springdoc.openapi-gradle-plugin' version '1.3.0'
+id "com.github.johnrengelman.processes" version "0.5.0"
+id 'org.springdoc.openapi-gradle-plugin' version '1.3.0'
 ----
 
 
