@@ -16,7 +16,8 @@ This is a refernce implementation show casing best practices using spring doc fo
 <6> Add springdoc openapi annotation into code, if the generated documentation is not enough? Which could be due to not following best practices OR due to legitamate excepions called out under " Handling the specific overrides"
 
 = Pre-requisites (good rest-api pracices)
-Springdoc is able to introspect the code, and is able to produce good documenation, with no additional coding. However. for the springdoc to auto-generate good documentation, before overriding with specific annotations, developers are required to follow, the following REST-API, Sping and Java coding practices.
+
+IMPORTANT: Springdoc is able to introspect the code, and is able to produce good documenation, with no additional coding. However. for the springdoc to auto-generate good documentation, before overriding with specific annotations, developers are required to follow, the following REST-API, Sping and Java coding practices.
 
 . Good and meaning naming conventions of the variables, method names and models (pers Sun/Oracle guidelines)
 . Exceptions and HTTP Responses (for global nature, applicable to all endpoints) handled via Rest Controller Advices
@@ -49,4 +50,13 @@ id "com.github.johnrengelman.processes" version "0.5.0"
 id 'org.springdoc.openapi-gradle-plugin' version '1.3.0'
 ----
 
+== Global configuration
 
+`include::/cah-ea-ref-openapi-springdoc/blob/3779a91d6aa1f62fab0e58548fe034e6e1ca7f87/src/main/java/com/example/demo/config/OpenAPIConfig.java#L22-L96`
+
+`include::https://raw.githubusercontent.com/path/to/file[tags=bar;foo]`
+
+[source,java]
+----
+https://github.com/cah-venkatasuryasasikala-peri/cah-ea-ref-openapi-springdoc/blob/3779a91d6aa1f62fab0e58548fe034e6e1ca7f87/src/main/java/com/example/demo/config/OpenAPIConfig.java#L22-L96
+----
